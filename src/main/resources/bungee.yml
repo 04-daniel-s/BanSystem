@@ -1,0 +1,4 @@
+name: Bansystem
+version: '${project.version}'
+main: de.lecuutex.bansystem.Bansystem
+description: Bansystem for AkerusNET
