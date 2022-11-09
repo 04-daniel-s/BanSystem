@@ -15,6 +15,5 @@ public class BanSystem extends Plugin {
 
     @Override
     public void onDisable() {
-        System.out.println("BanSystem has been shut down");
     }
 }
