@@ -1,5 +1,7 @@
 package de.lecuutex.bansystem.utils.database;
 
+import net.md_5.bungee.api.plugin.Plugin;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -8,7 +10,7 @@ import java.sql.SQLException;
  * A class created by yi.dnl - 11.11.2022 / 21:19
  */
 
-public class MySQL {
+public class MySQL extends Plugin {
     private Connection connection;
 
     public MySQL() {
