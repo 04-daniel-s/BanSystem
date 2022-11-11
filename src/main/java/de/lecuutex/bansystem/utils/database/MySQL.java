@@ -10,7 +10,7 @@ import java.sql.SQLException;
  * A class created by yi.dnl - 11.11.2022 / 21:19
  */
 
-public class MySQL extends Plugin {
+public class MySQL {
     private Connection connection;
 
     public MySQL() {

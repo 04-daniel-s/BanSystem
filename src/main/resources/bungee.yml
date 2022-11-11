@@ -1,4 +1,4 @@
-name: Bansystem
+name: BanSystem
 version: '${project.version}'
-main: de.lecuutex.bansystem.Bansystem
+main: de.lecuutex.bansystem.BanSystem
 description: Bansystem for AkerusNET
