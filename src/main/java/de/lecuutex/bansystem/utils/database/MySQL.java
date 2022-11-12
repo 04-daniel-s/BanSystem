@@ -30,7 +30,7 @@ public class MySQL {
             penalties.execute();
 
             PreparedStatement badwords = this.connection.prepareStatement("CREATE TABLE badwords(id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT, penalty_type VARCHAR(64), message VARCHAR(64))");
-
+            badwords.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
