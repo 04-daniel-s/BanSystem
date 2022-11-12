@@ -2,11 +2,8 @@ package de.lecuutex.bansystem.commands;
 
 import de.lecuutex.bansystem.BanSystem;
 import de.lecuutex.bansystem.utils.Utils;
-import de.lecuutex.bansystem.utils.database.repository.PenaltyRepository;
 import de.lecuutex.bansystem.utils.database.service.PenaltyService;
-import de.lecuutex.bansystem.utils.penalty.BanDuration;
 import de.lecuutex.bansystem.utils.penalty.PenaltyReason;
-import de.lecuutex.bansystem.utils.penalty.PenaltyType;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -50,10 +47,10 @@ public class BanCommand extends Command {
         player.sendMessage("§cBan §7┃ §a5   §7» §aTeaming §7┃ 7 Days");
         player.sendMessage("§cBan §7┃ §a6   §7» §aSkin §7┃ 14 Days");
         player.sendMessage("§cBan §7┃ §a7   §7» §aName §7┃ 30 Days");
-        player.sendMessage("§cBan §7┃ §a8  §7» §aRank utilization §7┃ 30 Days");
+        player.sendMessage("§cBan §7┃ §a8   §7» §aRank utilization §7┃ 30 Days");
         player.sendMessage("§cBan §7┃ §a9   §7» §aHacking §7┃ Permanent");
-        player.sendMessage("§cBan §7┃ §a10   §7» §aBan bypass §7┃ Permanent");
-        player.sendMessage("§cBan §7┃ §a11   §7» §aExtreme §7┃ Permanent");
+        player.sendMessage("§cBan §7┃ §a10  §7» §aBan bypass §7┃ Permanent");
+        player.sendMessage("§cBan §7┃ §a11  §7» §aExtreme §7┃ Permanent");
         player.sendMessage("§8§7» ----------- × Bansystem × -----------  «");
     }
 }

@@ -15,7 +15,7 @@ import java.sql.SQLException;
 public class PenaltyRepository extends AbstractRepository {
 
     public void postPenalty(ProxiedPlayer creator, ProxiedPlayer target, PenaltyType type, PenaltyReason reason, DefaultDuration defaultDuration) {
-        long duration = defaultDuration instanceof MuteDuration ? defaultDuration.getDuration(target) : ((BanDuration) defaultDuration).getDuration();
+        long duration = defaultDuration != null ? (defaultDuration instanceof MuteDuration ? defaultDuration.getDuration(target) : ((BanDuration) defaultDuration).getDuration()) : 0;
 
         try {
             PreparedStatement preparedStatement = getConnection().prepareStatement("INSERT INTO penalties(uuid, creator_uuid, penalty_type,reason, duration_milliseconds,timestamp) VALUES (?,?,?,?,?,?)");

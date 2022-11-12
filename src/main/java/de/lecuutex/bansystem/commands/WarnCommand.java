@@ -2,12 +2,8 @@ package de.lecuutex.bansystem.commands;
 
 import de.lecuutex.bansystem.BanSystem;
 import de.lecuutex.bansystem.utils.Utils;
-import de.lecuutex.bansystem.utils.database.repository.PenaltyRepository;
 import de.lecuutex.bansystem.utils.database.service.PenaltyService;
-import de.lecuutex.bansystem.utils.penalty.BanDuration;
-import de.lecuutex.bansystem.utils.penalty.MuteDuration;
 import de.lecuutex.bansystem.utils.penalty.PenaltyReason;
-import de.lecuutex.bansystem.utils.penalty.PenaltyType;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -51,7 +47,7 @@ public class WarnCommand extends Command {
         player.sendMessage("§cBan §7┃ §a5   §7» §aTeaming");
         player.sendMessage("§cBan §7┃ §a6   §7» §aSkin");
         player.sendMessage("§cBan §7┃ §a7   §7» §aName");
-        player.sendMessage("§cBan §7┃ §a8  §7» §aRank utilization");
+        player.sendMessage("§cBan §7┃ §a8   §7» §aRank utilization");
         player.sendMessage("§8§7» ----------- × Warnsystem × -----------  «");
     }
 }
