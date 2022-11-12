@@ -116,7 +116,7 @@ public class PenaltyRepository extends AbstractRepository {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                latestDuration = resultSet.getLong("timestamp");
+                latestDuration = resultSet.getLong("duration_milliseconds");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

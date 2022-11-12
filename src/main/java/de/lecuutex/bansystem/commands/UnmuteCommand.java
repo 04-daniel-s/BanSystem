@@ -34,7 +34,7 @@ public class UnmuteCommand extends Command {
             }
 
             if(!service.isMuted(target)) {
-                player.sendMessage("Nicht gebannt");
+                player.sendMessage("Nicht gemutet");
                 return;
             }
 
