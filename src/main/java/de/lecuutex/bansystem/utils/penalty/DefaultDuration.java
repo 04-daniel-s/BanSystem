@@ -7,5 +7,6 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
  */
 
 public interface DefaultDuration {
+
     Long getDuration(ProxiedPlayer player);
 }

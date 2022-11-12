@@ -5,6 +5,7 @@ import de.lecuutex.bansystem.utils.Utils;
 import de.lecuutex.bansystem.utils.database.repository.PenaltyRepository;
 import de.lecuutex.bansystem.utils.database.service.PenaltyService;
 import de.lecuutex.bansystem.utils.penalty.BanDuration;
+import de.lecuutex.bansystem.utils.penalty.MuteDuration;
 import de.lecuutex.bansystem.utils.penalty.PenaltyReason;
 import de.lecuutex.bansystem.utils.penalty.PenaltyType;
 import net.md_5.bungee.api.CommandSender;
@@ -13,12 +14,12 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 
 /**
- * A class created by yi.dnl - 12.11.2022 / 01:47
+ * A class created by yi.dnl - 12.11.2022 / 19:51
  */
 
-public class BanCommand extends Command {
-    public BanCommand() {
-        super("ban");
+public class WarnCommand extends Command {
+    public WarnCommand() {
+        super("warn");
     }
 
     private final ProxyServer proxyServer = BanSystem.getInstance().getProxy();
@@ -37,23 +38,20 @@ public class BanCommand extends Command {
             }
 
             PenaltyReason reason = PenaltyReason.getReasonById(Integer.parseInt(args[1]));
-            service.postBan(player, target, reason);
+            service.postWarn(player, target, reason);
             return;
         }
 
-        player.sendMessage("§8§7» ----------- × Bansystem × ----------- «");
-        player.sendMessage("§cBan §7┃ /ban (Player) (Number)");
-        player.sendMessage("§cBan §7┃ §a1   §7» §aChat behavior §7┃ 14 Days");
-        player.sendMessage("§cBan §7┃ §a2   §7» §aBehavior §7┃ 14 Days");
-        player.sendMessage("§cBan §7┃ §a3   §7» §aAdvertisement §7┃ 14 Days");
-        player.sendMessage("§cBan §7┃ §a4   §7» §aTrolling §7┃ 7 Days");
-        player.sendMessage("§cBan §7┃ §a5   §7» §aTeaming §7┃ 7 Days");
-        player.sendMessage("§cBan §7┃ §a6   §7» §aSkin §7┃ 14 Days");
-        player.sendMessage("§cBan §7┃ §a7   §7» §aName §7┃ 30 Days");
-        player.sendMessage("§cBan §7┃ §a8  §7» §aRank utilization §7┃ 30 Days");
-        player.sendMessage("§cBan §7┃ §a9   §7» §aHacking §7┃ Permanent");
-        player.sendMessage("§cBan §7┃ §a10   §7» §aBan bypass §7┃ Permanent");
-        player.sendMessage("§cBan §7┃ §a11   §7» §aExtreme §7┃ Permanent");
-        player.sendMessage("§8§7» ----------- × Bansystem × -----------  «");
+        player.sendMessage("§8§7» ----------- × Warnsystem × ----------- «");
+        player.sendMessage("§cBan §7┃ /warn (Player) (Number)");
+        player.sendMessage("§cBan §7┃ §a1   §7» §aChat behavior");
+        player.sendMessage("§cBan §7┃ §a2   §7» §aBehavior");
+        player.sendMessage("§cBan §7┃ §a3   §7» §aAdvertisement");
+        player.sendMessage("§cBan §7┃ §a4   §7» §aTrolling");
+        player.sendMessage("§cBan §7┃ §a5   §7» §aTeaming");
+        player.sendMessage("§cBan §7┃ §a6   §7» §aSkin");
+        player.sendMessage("§cBan §7┃ §a7   §7» §aName");
+        player.sendMessage("§cBan §7┃ §a8  §7» §aRank utilization");
+        player.sendMessage("§8§7» ----------- × Warnsystem × -----------  «");
     }
 }

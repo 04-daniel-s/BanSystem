@@ -3,6 +3,8 @@ package de.lecuutex.bansystem.utils.penalty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.Arrays;
+
 /**
  * A class created by yi.dnl - 12.11.2022 / 01:20
  */
@@ -10,21 +12,25 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum PenaltyReason {
-    HACKING(1,5,0),
+    CHATBEHAVIOR(1,5,4),
     BEHAVIOR(2,5,4),
-    CHATBEHAVIOR(3,5,4),
+    ADVERTISEMENT(3,3,4),
     TROLLING(4,2,2),
     TEAMING(5,2,2),
-    BANBYPASS(6,20,0),
-    SKIN(7,7,4),
-    NAME(8,7,4),
-    EXTREME(9,30,0),
-    ADVERTISEMENT(10,3,4),
-    RANKUTILIZATION(11,5,10);
+    SKIN(6,7,4),
+    NAME(7,7,4),
+    RANKUTILIZATION(8,5,10),
+    HACKING(9,5,0),
+    BANBYPASS(10,20,0),
+    EXTREME(11,30,0);
 
     private final int id;
 
     private final int banPoints;
 
     private final int warnPoints;
+
+    public static PenaltyReason getReasonById(int id) {
+        return Arrays.stream(values()).filter(p -> p.getId() == id).findFirst().get();
+    }
 }

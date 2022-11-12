@@ -1,8 +1,11 @@
 package de.lecuutex.bansystem.utils.database.service;
 
 import de.lecuutex.bansystem.utils.database.repository.PenaltyRepository;
+import de.lecuutex.bansystem.utils.penalty.BanDuration;
+import de.lecuutex.bansystem.utils.penalty.MuteDuration;
 import de.lecuutex.bansystem.utils.penalty.PenaltyReason;
 import de.lecuutex.bansystem.utils.penalty.PenaltyType;
+import jdk.jfr.internal.PlatformRecorder;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.sql.ResultSet;
@@ -14,7 +17,7 @@ import java.util.List;
  */
 
 public class PenaltyService {
-    
+
     private final PenaltyRepository repository = new PenaltyRepository();
 
     private int getPointsInternal(ProxiedPlayer player, PenaltyType type) {
@@ -42,5 +45,33 @@ public class PenaltyService {
 
     public int getWarnAmount(ProxiedPlayer player) {
         return repository.getWarnAmount(player);
+    }
+
+    public void postBan(ProxiedPlayer creator, ProxiedPlayer target, PenaltyReason reason) {
+        repository.postPenalty(creator, target, PenaltyType.BAN, reason, BanDuration.getDurationByReason(reason));
+
+        //TODO send team message
+        creator.sendMessage();
+        target.sendMessage();
+    }
+
+    public void postMute(ProxiedPlayer creator, ProxiedPlayer target, PenaltyReason reason) {
+        repository.postPenalty(creator, target, PenaltyType.MUTE, reason, MuteDuration.getDurationByReason(reason));
+
+        //TODO send team message
+        creator.sendMessage();
+        target.sendMessage();
+    }
+
+    public void postWarn(ProxiedPlayer creator, ProxiedPlayer target, PenaltyReason reason) {
+        repository.postPenalty(creator, target, PenaltyType.WARN, reason, null);
+
+        //TODO send team message
+        creator.sendMessage();
+        target.sendMessage();
+
+        if (reason.getId() < 4 && repository.getWarnAmount(target) > 0) {
+            postMute(creator, target, reason);
+        }
     }
 }

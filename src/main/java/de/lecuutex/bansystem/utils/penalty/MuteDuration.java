@@ -1,6 +1,5 @@
 package de.lecuutex.bansystem.utils.penalty;
 
-import de.lecuutex.bansystem.utils.database.repository.PenaltyRepository;
 import de.lecuutex.bansystem.utils.database.service.PenaltyService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -37,5 +36,9 @@ public enum MuteDuration implements DefaultDuration {
         int points = penaltyService.getWarnAmount(player);
         if (points >= durations.size()) points = durations.size() - 1;
         return durations.get(points);
+    }
+
+    public static MuteDuration getDurationByReason(PenaltyReason reason) {
+        return Arrays.stream(values()).filter(p -> p.toString().equals(reason.toString())).findFirst().get();
     }
 }

@@ -1,10 +1,13 @@
 package de.lecuutex.bansystem.utils.penalty;
 
+import jdk.jfr.internal.PlatformRecorder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A class created by yi.dnl - 12.11.2022 / 14:31
@@ -34,5 +37,9 @@ public enum BanDuration implements DefaultDuration {
     @Override
     public Long getDuration(ProxiedPlayer player) {
         return duration;
+    }
+
+    public static BanDuration getDurationByReason(PenaltyReason reason) {
+        return Arrays.stream(values()).filter(p -> p.toString().equals(reason.toString())).findFirst().get();
     }
 }
