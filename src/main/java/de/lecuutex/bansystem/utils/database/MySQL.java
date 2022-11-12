@@ -4,6 +4,7 @@ import net.md_5.bungee.api.plugin.Plugin;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 /**
@@ -21,5 +22,17 @@ public class MySQL {
         }
 
         System.out.println("The database connection has been successfully established");
+    }
+
+    public void createTables() {
+        try {
+            PreparedStatement penalties = this.connection.prepareStatement("CREATE TABLE penalties(uuid VARCHAR(64) PRIMARY KEY, creator_uuid VARCHAR(64), penalty_type VARCHAR(64), reason VARCHAR(64), duration_minutes BIGINT, timestamp BIGINT)");
+            penalties.execute();
+
+            PreparedStatement badwords = this.connection.prepareStatement("CREATE TABLE badwords(id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT, penalty_type VARCHAR(64), message VARCHAR(64))");
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
