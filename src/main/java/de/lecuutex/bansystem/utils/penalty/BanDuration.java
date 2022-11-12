@@ -2,6 +2,7 @@ package de.lecuutex.bansystem.utils.penalty;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @Getter
-public enum BanDuration implements DefaultDuration{
+public enum BanDuration implements DefaultDuration {
     HACKING(-1L),
     BEHAVIOR((daysToMillis(14))),
     CHATBEHAVIOR(daysToMillis(14)),
@@ -22,8 +23,7 @@ public enum BanDuration implements DefaultDuration{
     NAME(daysToMillis(30)),
     EXTREME((-1L)),
     ADVERTISEMENT(daysToMillis(14)),
-    RANKUTILIZATION(daysToMillis(30)),
-    HAUSVERBOT(-1L);
+    RANKUTILIZATION(daysToMillis(30));
 
     private final Long duration;
 
@@ -32,7 +32,7 @@ public enum BanDuration implements DefaultDuration{
     }
 
     @Override
-    public Long getDuration() {
+    public Long getDuration(ProxiedPlayer player) {
         return duration;
     }
 }

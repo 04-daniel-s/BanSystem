@@ -15,6 +15,7 @@ public class BanSystem extends Plugin {
 
     @Override
     public void onEnable() {
+        instance = this;
         mySQL = new MySQL();
 
         getProxy().getPluginManager().registerCommand(this, new BanCommand());

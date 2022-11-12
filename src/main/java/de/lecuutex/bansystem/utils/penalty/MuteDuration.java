@@ -1,6 +1,7 @@
 package de.lecuutex.bansystem.utils.penalty;
 
 import de.lecuutex.bansystem.utils.database.repository.PenaltyRepository;
+import de.lecuutex.bansystem.utils.database.service.PenaltyService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -29,10 +30,12 @@ public enum MuteDuration implements DefaultDuration {
         return (1000L * 60 * 60 * 24 * days);
     }
 
-    private final PenaltyRepository penaltyRepository = new PenaltyRepository();
+    private final PenaltyService penaltyService = new PenaltyService();
 
     @Override
     public Long getDuration(ProxiedPlayer player) {
-        return durations.get(penaltyRepository.getWarnPoints(player));
+        int points = penaltyService.getWarnAmount(player);
+        if (points >= durations.size()) points = durations.size() - 1;
+        return durations.get(points);
     }
 }
