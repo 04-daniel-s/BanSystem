@@ -1,4 +1,5 @@
 name: BanSystem
 version: '${project.version}'
 main: de.lecuutex.bansystem.BanSystem
+author: yidnl
 description: BanSystem for AkerusNET
