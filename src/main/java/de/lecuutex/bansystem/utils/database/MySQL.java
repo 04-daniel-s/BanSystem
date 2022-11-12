@@ -1,5 +1,6 @@
 package de.lecuutex.bansystem.utils.database;
 
+import lombok.Getter;
 import net.md_5.bungee.api.plugin.Plugin;
 
 import java.sql.Connection;
@@ -12,6 +13,7 @@ import java.sql.SQLException;
  */
 
 public class MySQL {
+    @Getter
     private Connection connection;
 
     public MySQL() {
@@ -27,13 +29,10 @@ public class MySQL {
 
     public void createTables() {
         try {
-            PreparedStatement penalties = this.connection.prepareStatement("CREATE TABLE IF NOT EXISTS penalties(uuid VARCHAR(64) PRIMARY KEY, creator_uuid VARCHAR(64), penalty_type VARCHAR(64), reason VARCHAR(64), duration_milliseconds BIGINT, timestamp BIGINT)");
-            penalties.execute();
-
-            PreparedStatement badwords = this.connection.prepareStatement("CREATE TABLE IF NOT EXISTS badwords(id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY, penalty_type VARCHAR(64), message VARCHAR(64))");
-            badwords.execute();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+            this.connection.prepareStatement("CREATE TABLE IF NOT EXISTS penalties(id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY, uuid VARCHAR(64), creator_uuid VARCHAR(64), penalty_type VARCHAR(64), reason VARCHAR(64), duration_milliseconds BIGINT, timestamp BIGINT)").execute();
+            this.connection.prepareStatement("CREATE TABLE IF NOT EXISTS badwords(id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY, penalty_type VARCHAR(64), message VARCHAR(64))").execute();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
         }
     }
 }
