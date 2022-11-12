@@ -21,6 +21,7 @@ public class MySQL {
             exception.printStackTrace();
         }
 
+        createTables();
         System.out.println("The database connection has been successfully established");
     }
 
