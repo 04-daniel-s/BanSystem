@@ -1,5 +1,6 @@
 package de.lecuutex.bansystem;
 
+import de.lecuutex.bansystem.commands.BanCommand;
 import de.lecuutex.bansystem.commands.TestCommand;
 import de.lecuutex.bansystem.utils.database.MySQL;
 import lombok.Getter;
@@ -16,7 +17,10 @@ public class BanSystem extends Plugin {
     @Override
     public void onEnable() {
         mySQL = new MySQL();
+
         getProxy().getPluginManager().registerCommand(this, new TestCommand());
+        getProxy().getPluginManager().registerCommand(this, new BanCommand());
+
         System.out.println("BanSystem is up an running");
     }
 
