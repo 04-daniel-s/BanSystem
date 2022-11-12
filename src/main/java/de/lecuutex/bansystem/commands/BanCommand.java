@@ -14,13 +14,13 @@ import net.md_5.bungee.api.plugin.Command;
  */
 
 public class BanCommand extends Command {
-    public BanCommand() {
-        super("ban");
-    }
-
     private final ProxyServer proxyServer = BanSystem.getInstance().getProxy();
 
     private final PenaltyService service = new PenaltyService();
+
+    public BanCommand() {
+        super("ban");
+    }
 
     @Override
     public void execute(CommandSender sender, String[] args) {

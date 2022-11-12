@@ -74,4 +74,18 @@ public class PenaltyService {
             postMute(creator, target, reason);
         }
     }
+
+    public void removeBan(ProxiedPlayer creator, ProxiedPlayer target) {
+        repository.removePenalty(target, PenaltyType.BAN);
+
+        creator.sendMessage("");
+        target.sendMessage("");
+    }
+
+    public void removeMute(ProxiedPlayer creator, ProxiedPlayer target) {
+        repository.removePenalty(target, PenaltyType.MUTE);
+
+        creator.sendMessage("");
+        target.sendMessage("");
+    }
 }

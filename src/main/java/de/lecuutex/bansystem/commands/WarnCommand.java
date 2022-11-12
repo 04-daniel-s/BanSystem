@@ -14,13 +14,13 @@ import net.md_5.bungee.api.plugin.Command;
  */
 
 public class WarnCommand extends Command {
-    public WarnCommand() {
-        super("warn");
-    }
-
     private final ProxyServer proxyServer = BanSystem.getInstance().getProxy();
 
     private final PenaltyService service = new PenaltyService();
+
+    public WarnCommand() {
+        super("warn");
+    }
 
     @Override
     public void execute(CommandSender sender, String[] args) {

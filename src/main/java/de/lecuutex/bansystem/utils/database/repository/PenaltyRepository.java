@@ -15,24 +15,45 @@ import java.sql.SQLException;
 public class PenaltyRepository extends AbstractRepository {
 
     public void postPenalty(ProxiedPlayer creator, ProxiedPlayer target, PenaltyType type, PenaltyReason reason, DefaultDuration defaultDuration) {
-        long duration = defaultDuration != null ? (defaultDuration instanceof MuteDuration ? defaultDuration.getDuration(target) : ((BanDuration) defaultDuration).getDuration()) : 0;
+        new Thread(() -> {
+            long duration = defaultDuration != null ? (defaultDuration instanceof MuteDuration ? defaultDuration.getDuration(target) : ((BanDuration) defaultDuration).getDuration()) : 0;
 
-        try {
-            PreparedStatement preparedStatement = getConnection().prepareStatement("INSERT INTO penalties(uuid, creator_uuid, penalty_type,reason, duration_milliseconds,timestamp) VALUES (?,?,?,?,?,?)");
-            preparedStatement.setString(1, target.getUniqueId().toString());
-            preparedStatement.setString(2, creator.getUniqueId().toString());
-            preparedStatement.setString(3, type.toString());
-            preparedStatement.setString(4, reason.toString());
-            preparedStatement.setLong(5, duration);
-            preparedStatement.setLong(6, System.currentTimeMillis());
-            preparedStatement.execute();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+            try {
+                PreparedStatement preparedStatement = getConnection().prepareStatement("INSERT INTO penalties(uuid, creator_uuid, penalty_type,reason, duration_milliseconds,timestamp) VALUES (?,?,?,?,?,?)");
+                preparedStatement.setString(1, target.getUniqueId().toString());
+                preparedStatement.setString(2, creator.getUniqueId().toString());
+                preparedStatement.setString(3, type.toString());
+                preparedStatement.setString(4, reason.toString());
+                preparedStatement.setLong(5, duration);
+                preparedStatement.setLong(6, System.currentTimeMillis());
+                preparedStatement.execute();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }).start();
     }
 
-    public void removePenalty() {
+    public void removePenalty(ProxiedPlayer player, PenaltyType type) {
+        new Thread(() -> {
+            try {
+                int id = -1;
 
+                PreparedStatement statement = getConnection().prepareStatement("SELECT id FROM penalties WHERE uuid = ? AND penalty_type = ? ORDER BY timestamp DESC LIMIT 1");
+                statement.setString(1,player.getUniqueId().toString());
+                statement.setString(2,type.toString());
+
+                ResultSet resultSet = statement.executeQuery();
+                if (resultSet.next()) {
+                    id = resultSet.getInt("id");
+                }
+
+                PreparedStatement preparedStatement = getConnection().prepareStatement("UPDATE penalties SET duration_milliseconds = 0 WHERE id = ?");
+                preparedStatement.setInt(1, id);
+                preparedStatement.execute();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
     public ResultSet getPenaltyListInternal(ProxiedPlayer player, PenaltyType type) {
