@@ -88,4 +88,12 @@ public class PenaltyService {
         creator.sendMessage("");
         target.sendMessage("");
     }
+
+    public boolean isBanned(ProxiedPlayer player) {
+        return repository.getLatestTimestamp(player, PenaltyType.BAN) - repository.getLatestDuration(player, PenaltyType.BAN) > 0;
+    }
+
+    public boolean isMuted(ProxiedPlayer player) {
+        return repository.getLatestTimestamp(player, PenaltyType.MUTE) - repository.getLatestDuration(player, PenaltyType.MUTE) > 0;
+    }
 }

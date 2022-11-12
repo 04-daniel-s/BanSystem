@@ -32,7 +32,12 @@ public class UnmuteCommand extends Command {
                 player.sendMessage("Dieser Spieler ist nicht online");
                 return;
             }
-            
+
+            if(!service.isMuted(target)) {
+                player.sendMessage("Nicht gebannt");
+                return;
+            }
+
             service.removeMute(player, target);
             return;
         }

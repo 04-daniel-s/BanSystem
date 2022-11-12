@@ -34,7 +34,12 @@ public class MuteCommand extends Command {
                 return;
             }
 
-            if(Integer.parseInt(args[1]) > 3) {
+            if (service.isMuted(target)) {
+                player.sendMessage("Bereits gemutet");
+                return;
+            }
+
+            if (Integer.parseInt(args[1]) > 3) {
                 return;
             }
 

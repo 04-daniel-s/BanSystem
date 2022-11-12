@@ -39,8 +39,8 @@ public class PenaltyRepository extends AbstractRepository {
                 int id = -1;
 
                 PreparedStatement statement = getConnection().prepareStatement("SELECT id FROM penalties WHERE uuid = ? AND penalty_type = ? ORDER BY timestamp DESC LIMIT 1");
-                statement.setString(1,player.getUniqueId().toString());
-                statement.setString(2,type.toString());
+                statement.setString(1, player.getUniqueId().toString());
+                statement.setString(2, type.toString());
 
                 ResultSet resultSet = statement.executeQuery();
                 if (resultSet.next()) {
@@ -88,5 +88,39 @@ public class PenaltyRepository extends AbstractRepository {
         }
 
         return amount;
+    }
+
+    public Long getLatestTimestamp(ProxiedPlayer player, PenaltyType type) {
+        long latestTimestamp = 0;
+        try {
+            PreparedStatement preparedStatement = getConnection().prepareStatement("SELECT timestamp FROM penalties WHERE uuid = ? AND penalty_type = ? ORDER BY timestamp DESC LIMIT 1");
+            preparedStatement.setString(1, player.getUniqueId().toString());
+            preparedStatement.setString(2, type.toString());
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                latestTimestamp = resultSet.getLong("timestamp");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return latestTimestamp;
+    }
+
+    public Long getLatestDuration(ProxiedPlayer player, PenaltyType type) {
+        long latestDuration = 0;
+        try {
+            PreparedStatement preparedStatement = getConnection().prepareStatement("SELECT duration_milliseconds FROM penalties WHERE uuid = ? AND penalty_type = ? ORDER BY duration_milliseconds DESC LIMIT 1");
+            preparedStatement.setString(1, player.getUniqueId().toString());
+            preparedStatement.setString(2, type.toString());
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                latestDuration = resultSet.getLong("timestamp");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return latestDuration;
     }
 }

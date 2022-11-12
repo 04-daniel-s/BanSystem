@@ -33,6 +33,11 @@ public class BanCommand extends Command {
                 return;
             }
 
+            if(service.isBanned(target)) {
+                player.sendMessage("Bereits gebannt");
+                return;
+            }
+
             PenaltyReason reason = PenaltyReason.getReasonById(Integer.parseInt(args[1]));
             service.postBan(player, target, reason);
             return;
