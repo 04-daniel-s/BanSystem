@@ -1,48 +1,43 @@
 package de.lecuutex.bansystem.commands;
 
-import de.lecuutex.bansystem.BanSystem;
-import de.lecuutex.bansystem.utils.Utils;
-import de.lecuutex.bansystem.utils.database.service.PenaltyService;
+import de.lecuutex.bansystem.commands.manager.AbstractTeamCommand;
 import de.lecuutex.bansystem.utils.penalty.PenaltyReason;
-import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.plugin.Command;
 
 /**
  * A class created by yi.dnl - 12.11.2022 / 01:47
  */
 
-public class BanCommand extends Command {
-    private final ProxyServer proxyServer = BanSystem.getInstance().getProxy();
-
-    private final PenaltyService service = new PenaltyService();
-
+public class BanCommand extends AbstractTeamCommand {
     public BanCommand() {
         super("ban");
     }
 
     @Override
-    public void execute(CommandSender sender, String[] args) {
-        ProxiedPlayer player = (ProxiedPlayer) sender;
-        if (args.length == 2) {
-            ProxiedPlayer target = proxyServer.getPlayer(args[0]) != null ? proxyServer.getPlayer(args[0]) : proxyServer.getPlayer(Utils.getUUIDByName(args[0]));
-
-            if (target == null) {
-                player.sendMessage("Dieser Spieler ist nicht online");
-                return;
-            }
-
-            if(service.isBanned(target)) {
-                player.sendMessage("Bereits gebannt");
-                return;
-            }
-
-            PenaltyReason reason = PenaltyReason.getReasonById(Integer.parseInt(args[1]));
-            service.postBan(player, target, reason);
+    public void commandBody(ProxiedPlayer player, String[] args) {
+        if (getService().isBanned(getTarget())) {
+            player.sendMessage("Bereits gebannt");
             return;
         }
 
+        PenaltyReason reason = PenaltyReason.getReasonById(Integer.parseInt(args[1]));
+        //TODO ProxiedTarget to UUID -> Luckperms einbinden für Permissionscheck falls der Spieler offline ist
+
+        if (targetHasPermission("bansystem.ignore")) {
+            player.sendMessage("§cBan §7| §cYou are not allowed to affect this player!");
+            return;
+        }
+
+        if (reason == PenaltyReason.EXTREME && !player.hasPermission("bansystem.extreme")) {
+            player.sendMessage("§cBan §7| §cYou are not allowed to use this reason!");
+            return;
+        }
+
+        getService().postBan(player, getTarget(), reason);
+    }
+
+    @Override
+    public void sendUsage(ProxiedPlayer player) {
         player.sendMessage("§8§7» ----------- × Bansystem × ----------- «");
         player.sendMessage("§cBan §7┃ /ban (Player) (Number)");
         player.sendMessage("§cBan §7┃ §a1   §7» §aChat behavior §7┃ 14 Days");
@@ -57,5 +52,15 @@ public class BanCommand extends Command {
         player.sendMessage("§cBan §7┃ §a10  §7» §aBan bypass §7┃ Permanent");
         player.sendMessage("§cBan §7┃ §a11  §7» §aExtreme §7┃ Permanent");
         player.sendMessage("§8§7» ----------- × Bansystem × -----------  «");
+    }
+
+    @Override
+    public String getPermission() {
+        return "bansystem.ban";
+    }
+
+    @Override
+    public int getMinArgsLength() {
+        return 2;
     }
 }

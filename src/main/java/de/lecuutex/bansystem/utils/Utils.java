@@ -1,6 +1,7 @@
 package de.lecuutex.bansystem.utils;
 
 import com.google.gson.Gson;
+import de.lecuutex.bansystem.BanSystem;
 
 import java.io.IOException;
 import java.net.URL;
@@ -13,6 +14,16 @@ import java.util.UUID;
 
 public class Utils {
     private static final Gson gson = new Gson();
+
+    public static void sendMessageIfOnline(String uuid, String message) {
+        if(BanSystem.getInstance().getProxy().getPlayer(UUID.fromString(uuid)).isConnected()) {
+            BanSystem.getInstance().getProxy().getPlayer(UUID.fromString(uuid)).sendMessage(message);
+        }
+    }
+
+    public static String getNameByUUID(String uuid) {
+        return BanSystem.getInstance().getCloudNetDriver().getPermissionManagement().getUser(UUID.fromString(uuid)).getName();
+    }
 
     public static UUID getUUIDByName(String name) {
         String url = "https://api.mojang.com/users/profiles/minecraft/" + name;

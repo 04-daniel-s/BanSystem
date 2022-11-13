@@ -35,7 +35,7 @@ public enum BanDuration implements DefaultDuration {
     }
 
     @Override
-    public Long getDuration(ProxiedPlayer player) {
+    public Long getDuration(String uuid) {
         return duration;
     }
 

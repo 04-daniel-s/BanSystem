@@ -32,8 +32,8 @@ public enum MuteDuration implements DefaultDuration {
     private final PenaltyService penaltyService = new PenaltyService();
 
     @Override
-    public Long getDuration(ProxiedPlayer player) {
-        int points = penaltyService.getWarnAmount(player);
+    public Long getDuration(String uuid) {
+        int points = penaltyService.getWarnAmount(uuid);
         if (points >= durations.size()) points = durations.size() - 1;
         return durations.get(points);
     }
