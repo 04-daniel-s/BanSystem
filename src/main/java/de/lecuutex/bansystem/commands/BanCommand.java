@@ -21,7 +21,6 @@ public class BanCommand extends AbstractTeamCommand {
         }
 
         PenaltyReason reason = PenaltyReason.getReasonById(Integer.parseInt(args[1]));
-        //TODO ProxiedTarget to UUID -> Luckperms einbinden für Permissionscheck falls der Spieler offline ist
 
         if (targetHasPermission("bansystem.ignore")) {
             player.sendMessage("§cBan §7| §cYou are not allowed to affect this player!");
