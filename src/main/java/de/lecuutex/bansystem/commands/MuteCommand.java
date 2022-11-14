@@ -17,7 +17,7 @@ public class MuteCommand extends AbstractTeamCommand {
     @Override
     public void commandBody(ProxiedPlayer player, String[] args) {
         if (getPenaltyService().isMuted(getTarget())) {
-            player.sendMessage("Bereits gemutet");
+            player.sendMessage("§cMute §7| §cThis player is already muted.");
             return;
         }
 
@@ -29,7 +29,7 @@ public class MuteCommand extends AbstractTeamCommand {
         PenaltyReason reason = PenaltyReason.getReasonById(Integer.parseInt(args[1]));
 
         if (targetHasPermission("bansystem.ignore")) {
-            player.sendMessage("§cBan §7| §cYou are not allowed to affect this player!");
+            player.sendMessage("§cMute §7| §cYou cannot mute this team member!");
             return;
         }
 

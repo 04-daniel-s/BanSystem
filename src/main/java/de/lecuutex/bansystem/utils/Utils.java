@@ -68,4 +68,9 @@ public class Utils {
         list.forEach(r -> builder.append(r.getReason()).append(","));
         return builder.substring(builder.toString().length() - 1);
     }
+
+
+    public static void sendTeamMessage(String message) {
+        BanSystem.getInstance().getProxy().getPlayers().stream().filter(p -> p.hasPermission("bansystem.team")).forEach(p -> p.sendMessage(message));
+    }
 }

@@ -48,7 +48,7 @@ public abstract class AbstractTeamCommand extends Command {
         if (args.length == getMinArgsLength()) {
 
             if (!player.hasPermission(getPermission())) {
-                player.sendMessage("Du hast keine Rechte");
+                player.sendMessage("§eAkerus §7| §cYou cannot use this command.");
                 return;
             }
 

@@ -22,7 +22,7 @@ public class ChatListener implements Listener {
         if (event.isCommand() || event.isProxyCommand()) return;
 
         if (penaltyService.isMuted(player.getUniqueId().toString())) {
-            player.sendMessage("Du bist gemutet");
+            player.sendMessage("§cMute §7| §cYou cannot write because you are muted.");
             event.setCancelled(true);
         }
     }
