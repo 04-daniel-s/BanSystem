@@ -20,6 +20,7 @@ public class Cache {
         if (!isInCache(player.getUniqueId().toString())) {
             players.put(player.getUniqueId().toString(), new MinecraftPlayer(player));
         }
+        playerService.postPlayer(player);
     }
 
     public void cacheMinecraftPlayer(MinecraftPlayer minecraftPlayer) {

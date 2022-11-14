@@ -2,9 +2,13 @@ package de.lecuutex.bansystem.utils;
 
 import com.google.gson.Gson;
 import de.lecuutex.bansystem.BanSystem;
+import de.lecuutex.bansystem.utils.penalty.PenaltyReason;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -16,7 +20,7 @@ public class Utils {
     private static final Gson gson = new Gson();
 
     public static void sendMessageIfOnline(String uuid, String message) {
-        if(BanSystem.getInstance().getProxy().getPlayer(UUID.fromString(uuid)).isConnected()) {
+        if (BanSystem.getInstance().getProxy().getPlayer(UUID.fromString(uuid)).isConnected()) {
             BanSystem.getInstance().getProxy().getPlayer(UUID.fromString(uuid)).sendMessage(message);
         }
     }
@@ -49,5 +53,19 @@ public class Utils {
             e.printStackTrace();
         }
         return text.toString();
+    }
+
+    public static String getDateByMilliseconds(Long millis) {
+        return new SimpleDateFormat("dd.MM.yyyy").format(new Date(millis));
+    }
+
+    public static String penaltyListToString(List<PenaltyReason> list) {
+        if (list.size() == 0) {
+            return "Has no penalties";
+        }
+
+        StringBuilder builder = new StringBuilder();
+        list.forEach(r -> builder.append(r.getReason()).append(","));
+        return builder.substring(builder.toString().length() - 1);
     }
 }

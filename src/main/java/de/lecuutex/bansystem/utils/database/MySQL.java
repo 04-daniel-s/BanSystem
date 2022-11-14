@@ -31,7 +31,7 @@ public class MySQL {
         try {
             this.connection.prepareStatement("CREATE TABLE IF NOT EXISTS penalties(id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY, uuid VARCHAR(64), creator_uuid VARCHAR(64), penalty_type VARCHAR(64), reason VARCHAR(64), duration_milliseconds BIGINT, timestamp BIGINT)").execute();
             this.connection.prepareStatement("CREATE TABLE IF NOT EXISTS badwords(id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY, penalty_type VARCHAR(64), message VARCHAR(64))").execute();
-            this.connection.prepareStatement("CREATE TABLE IF NOT EXISTS players(uuid VARCHAR(64) PRIMARY KEY, name VARCHAR(64), ip_address VARCHAR(64), first_join BIGINT)");
+            this.connection.prepareStatement("CREATE TABLE IF NOT EXISTS players(uuid VARCHAR(64) PRIMARY KEY, name VARCHAR(64), ip_address VARCHAR(64), first_join BIGINT)").execute();
         } catch (SQLException exception) {
             exception.printStackTrace();
         }

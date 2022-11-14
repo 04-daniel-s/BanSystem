@@ -15,12 +15,12 @@ public class UnmuteCommand extends AbstractTeamCommand {
 
     @Override
     public void commandBody(ProxiedPlayer player, String[] args) {
-        if (!getService().isMuted(getTarget())) {
+        if (!getPenaltyService().isMuted(getTarget())) {
             player.sendMessage("Nicht gemutet");
             return;
         }
 
-        getService().removeMute(player, getTarget());
+        getPenaltyService().removeMute(player, getTarget());
     }
 
     @Override

@@ -15,11 +15,11 @@ public class UnbanCommand extends AbstractTeamCommand {
 
     @Override
     public void commandBody(ProxiedPlayer player, String[] args) {
-        if (!getService().isBanned(getTarget())) {
+        if (!getPenaltyService().isBanned(getTarget())) {
             player.sendMessage("Nicht gebannt");
             return;
         }
-        getService().removeBan(player, getTarget());
+        getPenaltyService().removeBan(player, getTarget());
     }
 
     public void sendUsage(ProxiedPlayer player) {

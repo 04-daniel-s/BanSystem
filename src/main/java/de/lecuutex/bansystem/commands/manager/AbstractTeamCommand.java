@@ -4,6 +4,7 @@ import de.dytanic.cloudnet.driver.CloudNetDriver;
 import de.lecuutex.bansystem.BanSystem;
 import de.lecuutex.bansystem.utils.Utils;
 import de.lecuutex.bansystem.utils.database.service.PenaltyService;
+import de.lecuutex.bansystem.utils.database.service.PlayerService;
 import lombok.Getter;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
@@ -25,11 +26,17 @@ public abstract class AbstractTeamCommand extends Command {
         super(command);
     }
 
+    private final String banPrefix = "§cBan §7| §c ";
+
+    private final String infoPrefix = "§cInfo §7| §7 ";
+
     private final CloudNetDriver cloudNetDriver = BanSystem.getInstance().getCloudNetDriver();
 
     private final ProxyServer proxyServer = BanSystem.getInstance().getProxy();
 
-    private final PenaltyService service = BanSystem.getInstance().getPenaltyService();
+    private final PenaltyService penaltyService = BanSystem.getInstance().getPenaltyService();
+
+    private final PlayerService playerService = BanSystem.getInstance().getPlayerService();
 
     private String target = null;
 

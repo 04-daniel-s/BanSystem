@@ -16,7 +16,7 @@ public class MuteCommand extends AbstractTeamCommand {
 
     @Override
     public void commandBody(ProxiedPlayer player, String[] args) {
-        if (getService().isMuted(getTarget())) {
+        if (getPenaltyService().isMuted(getTarget())) {
             player.sendMessage("Bereits gemutet");
             return;
         }
@@ -38,7 +38,7 @@ public class MuteCommand extends AbstractTeamCommand {
             return;
         }
 
-        getService().postMute(player, getTarget(), reason);
+        getPenaltyService().postMute(player, getTarget(), reason);
     }
 
     @Override

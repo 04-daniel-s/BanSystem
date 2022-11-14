@@ -14,12 +14,13 @@ import net.md_5.bungee.event.EventHandler;
 
 public class JoinListener implements Listener {
 
-    private final PenaltyService penaltyService = BanSystem.getInstance().getPenaltyService();;
 
     @EventHandler
     public void onEvent(PostLoginEvent event) {
+        PenaltyService penaltyService = BanSystem.getInstance().getPenaltyService();;
+
         ProxiedPlayer player = event.getPlayer();
-        new Cache().cacheNewPlayer(player);
+        BanSystem.getInstance().getCache().cacheNewPlayer(player);
 
         if (penaltyService.isBanned(player.getUniqueId().toString())) {
             player.disconnect("Du bist gebannt");

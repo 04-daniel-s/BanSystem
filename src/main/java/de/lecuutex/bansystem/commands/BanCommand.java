@@ -15,7 +15,7 @@ public class BanCommand extends AbstractTeamCommand {
 
     @Override
     public void commandBody(ProxiedPlayer player, String[] args) {
-        if (getService().isBanned(getTarget())) {
+        if (getPenaltyService().isBanned(getTarget())) {
             player.sendMessage("Bereits gebannt");
             return;
         }
@@ -32,7 +32,7 @@ public class BanCommand extends AbstractTeamCommand {
             return;
         }
 
-        getService().postBan(player, getTarget(), reason);
+        getPenaltyService().postBan(player, getTarget(), reason);
     }
 
     @Override

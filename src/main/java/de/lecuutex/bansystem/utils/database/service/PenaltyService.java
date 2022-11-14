@@ -12,8 +12,10 @@ import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 /**
@@ -28,8 +30,8 @@ public class PenaltyService {
 
     private final Cache cache = BanSystem.getInstance().getCache();
 
-    private int getPointsInternal(ProxiedPlayer player, PenaltyType type) {
-        ResultSet resultSet = repository.getPenaltyListInternal(player, type);
+    private int getPointsInternal(String uuid, PenaltyType type) {
+        ResultSet resultSet = repository.getPenaltyListInternal(uuid, type);
         List<PenaltyReason> penalties = new ArrayList<>();
 
         try {
@@ -40,15 +42,16 @@ public class PenaltyService {
             exception.printStackTrace();
         }
 
+        if (penalties.size() == 0) return 0;
         return penalties.stream().map(p -> type == PenaltyType.BAN ? p.getBanPoints() : p.getWarnPoints()).mapToInt(Integer::intValue).sum();
     }
 
-    public int getBanPoints(ProxiedPlayer player) {
-        return getPointsInternal(player, PenaltyType.BAN);
+    public int getBanPoints(String uuid) {
+        return getPointsInternal(uuid, PenaltyType.BAN);
     }
 
-    public int getWarnPoints(ProxiedPlayer player) {
-        return getPointsInternal(player, PenaltyType.WARN);
+    public int getWarnPoints(String uuid) {
+        return getPointsInternal(uuid, PenaltyType.WARN);
     }
 
     public int getWarnAmount(String uuid) {
@@ -113,5 +116,28 @@ public class PenaltyService {
 
     public boolean isMuted(String uuid) {
         return repository.getLatestDuration(uuid, PenaltyType.MUTE) == -1 || repository.getLatestTimestamp(uuid, PenaltyType.MUTE) + repository.getLatestDuration(uuid, PenaltyType.MUTE) - System.currentTimeMillis() > 0;
+    }
+
+    public String getBanReasons(String uuid) {
+        return Utils.penaltyListToString(getReasonsList(uuid, PenaltyType.BAN));
+    }
+
+    public String getWarnReasons(String uuid) {
+        return Utils.penaltyListToString(getReasonsList(uuid, PenaltyType.WARN));
+    }
+
+    private List<PenaltyReason> getReasonsList(String uuid, PenaltyType type) {
+        List<PenaltyReason> reasons = new ArrayList<>();
+        ResultSet rs = repository.getPenaltyListInternal(uuid, type);
+
+        try {
+            while (rs.next()) {
+                reasons.add(PenaltyReason.valueOf(rs.getString("reason")));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return reasons;
     }
 }

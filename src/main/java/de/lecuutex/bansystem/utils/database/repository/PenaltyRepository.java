@@ -36,8 +36,8 @@ public class PenaltyRepository extends AbstractRepository {
         updateData("UPDATE penalties SET duration_milliseconds = 0 WHERE id = ?", id);
     }
 
-    public ResultSet getPenaltyListInternal(ProxiedPlayer player, PenaltyType type) {
-        return queryData("SELECT * FROM penalties WHERE uuid = ? AND penalty_type = ?", player.getUniqueId().toString(), type.toString());
+    public ResultSet getPenaltyListInternal(String uuid, PenaltyType type) {
+        return queryData("SELECT * FROM penalties WHERE uuid = ? AND penalty_type = ?", uuid, type.toString());
     }
 
     public int getWarnAmount(String uuid) {

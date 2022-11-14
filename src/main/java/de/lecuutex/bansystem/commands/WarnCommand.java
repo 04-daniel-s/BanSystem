@@ -31,7 +31,7 @@ public class WarnCommand extends AbstractTeamCommand {
             return;
         }
 
-        getService().postWarn(player, getTarget(), reason);
+        getPenaltyService().postWarn(player, getTarget(), reason);
     }
 
     @Override
