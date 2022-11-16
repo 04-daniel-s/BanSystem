@@ -11,6 +11,9 @@ import de.lecuutex.bansystem.utils.database.service.PlayerService;
 import lombok.Getter;
 import net.md_5.bungee.api.plugin.Plugin;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 @Getter
 public class BanSystem extends Plugin {
 
@@ -25,7 +28,9 @@ public class BanSystem extends Plugin {
 
     private PenaltyService penaltyService;
 
-    CloudNetDriver cloudNetDriver;
+    private CloudNetDriver cloudNetDriver;
+
+    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     @Override
     public void onEnable() {
@@ -33,8 +38,8 @@ public class BanSystem extends Plugin {
         cloudNetDriver = CloudNetDriver.getInstance();
         mySQL = new MySQL();
         cache = new Cache();
-        playerService = new PlayerService();
         penaltyService = new PenaltyService();
+        playerService = new PlayerService();
 
         getProxy().getPluginManager().registerCommand(this, new BanCommand());
         getProxy().getPluginManager().registerCommand(this, new PlayerInfoCommand());

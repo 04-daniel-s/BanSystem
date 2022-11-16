@@ -2,11 +2,14 @@ package de.lecuutex.bansystem.utils.database.service;
 
 import de.lecuutex.bansystem.BanSystem;
 import de.lecuutex.bansystem.utils.MinecraftPlayer;
+import de.lecuutex.bansystem.utils.database.repository.PenaltyRepository;
 import de.lecuutex.bansystem.utils.database.repository.PlayerRepository;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
+import de.lecuutex.bansystem.utils.penalty.PenaltyType;
+import net.md_5.bungee.api.ProxyServer;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
 
 /**
  * A class created by yi.dnl - 13.11.2022 / 22:03
@@ -14,14 +17,16 @@ import java.sql.SQLException;
 
 public class PlayerService {
 
-    private final PlayerRepository playerRepository = new PlayerRepository();
+    private final ProxyServer proxyServer = BanSystem.getInstance().getProxy();
 
     private final PenaltyService penaltyService = BanSystem.getInstance().getPenaltyService();
 
+    private final PlayerRepository playerRepository = new PlayerRepository();
+
     private final Cache cache = BanSystem.getInstance().getCache();
 
-    public void postPlayer(ProxiedPlayer player) {
-        MinecraftPlayer minecraftPlayer = cache.getPlayer(player.getUniqueId().toString());
+    public void postPlayer(String uuid) {
+        MinecraftPlayer minecraftPlayer = getMinecraftPlayer(uuid);
         playerRepository.updatePlayer(minecraftPlayer);
     }
 
@@ -30,17 +35,26 @@ public class PlayerService {
             return cache.getPlayer(uuid);
         }
 
-        ResultSet resultSet = playerRepository.getPlayer(uuid);
-
-        try {
-            if (resultSet.next()) {
-                MinecraftPlayer minecraftPlayer = new MinecraftPlayer(resultSet.getString("name"), uuid, resultSet.getString("ip_address"), resultSet.getLong("first_join"), penaltyService.isMuted(uuid), penaltyService.isBanned(uuid));
-                cache.cacheMinecraftPlayer(minecraftPlayer);
-                return minecraftPlayer;
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        MinecraftPlayer player = null;
+        if (proxyServer.getPlayer(UUID.fromString(uuid)) != null) {
+            player = new MinecraftPlayer(BanSystem.getInstance().getProxy().getPlayer(UUID.fromString(uuid)));
         }
-        return null;
+
+        if (isPresent(uuid)) {
+            try {
+                ResultSet rs = playerRepository.getPlayer(uuid);
+                while (rs.next()) {
+                    player = new MinecraftPlayer(rs.getString("name"), rs.getString("uuid"), rs.getString("ip_address"), rs.getLong("first_join"), penaltyService.isMuted(uuid), penaltyService.isBanned(uuid));
+                    cache.cacheMinecraftPlayer(player);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return player;
+    }
+
+    public boolean isPresent(String uuid) {
+        return playerRepository.isPresent(uuid);
     }
 }

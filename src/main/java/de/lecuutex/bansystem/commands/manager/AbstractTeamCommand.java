@@ -45,13 +45,12 @@ public abstract class AbstractTeamCommand extends Command {
     @Override
     public void execute(CommandSender sender, String[] args) {
         ProxiedPlayer player = (ProxiedPlayer) sender;
+        if (!player.hasPermission(getPermission())) {
+            player.sendMessage("§6Akerus §7| §cYou cannot use this command.");
+            return;
+        }
+
         if (args.length == getMinArgsLength()) {
-
-            if (!player.hasPermission(getPermission())) {
-                player.sendMessage("§eAkerus §7| §cYou cannot use this command.");
-                return;
-            }
-
             target = proxyServer.getPlayer(args[0]) != null ? proxyServer.getPlayer(args[0]).getUniqueId().toString() : String.valueOf(Utils.getUUIDByName(args[0]));
 
             if (target == null) {

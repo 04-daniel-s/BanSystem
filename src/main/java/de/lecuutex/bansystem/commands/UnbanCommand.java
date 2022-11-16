@@ -15,7 +15,7 @@ public class UnbanCommand extends AbstractTeamCommand {
 
     @Override
     public void commandBody(ProxiedPlayer player, String[] args) {
-        if (!getPenaltyService().isBanned(getTarget())) {
+        if (!getPlayerService().getMinecraftPlayer(player.getUniqueId().toString()).isBanned()) {
             player.sendMessage("Nicht gebannt");
             return;
         }

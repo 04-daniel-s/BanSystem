@@ -1,11 +1,8 @@
 package de.lecuutex.bansystem.utils.database.repository;
 
 import de.lecuutex.bansystem.utils.penalty.*;
-import jdk.jfr.internal.PlatformRecorder;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
-import java.security.InvalidKeyException;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -61,10 +58,10 @@ public class PenaltyRepository extends AbstractRepository {
 
         try {
             if (resultSet.next()) {
-                latestTimestamp = resultSet.getLong("timestamp");
+                return resultSet.getLong("timestamp");
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return latestTimestamp;
     }
@@ -75,11 +72,10 @@ public class PenaltyRepository extends AbstractRepository {
 
         try {
             if (resultSet.next()) {
-                latestDuration = resultSet.getLong("duration_milliseconds");
+                return resultSet.getLong("duration_milliseconds");
             }
-        } catch (
-                SQLException e) {
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return latestDuration;
     }

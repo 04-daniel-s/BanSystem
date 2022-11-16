@@ -1,6 +1,7 @@
 package de.lecuutex.bansystem.commands;
 
 import de.lecuutex.bansystem.commands.manager.AbstractTeamCommand;
+import de.lecuutex.bansystem.utils.Utils;
 import de.lecuutex.bansystem.utils.penalty.PenaltyReason;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
@@ -15,7 +16,7 @@ public class BanCommand extends AbstractTeamCommand {
 
     @Override
     public void commandBody(ProxiedPlayer player, String[] args) {
-        if (getPenaltyService().isBanned(getTarget())) {
+        if (getPlayerService().getMinecraftPlayer(player.getUniqueId().toString()).isBanned()) {
             player.sendMessage("Bereits gebannt");
             return;
         }
@@ -24,7 +25,6 @@ public class BanCommand extends AbstractTeamCommand {
 
         if (targetHasPermission("bansystem.ignore")) {
             player.sendMessage("§cBan §7| §cYou cannot ban this team member!");
-            return;
         }
 
         if (reason == PenaltyReason.EXTREME && !player.hasPermission("bansystem.extreme")) {

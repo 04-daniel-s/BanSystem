@@ -7,14 +7,15 @@ import de.lecuutex.bansystem.utils.penalty.BanDuration;
 import de.lecuutex.bansystem.utils.penalty.MuteDuration;
 import de.lecuutex.bansystem.utils.penalty.PenaltyReason;
 import de.lecuutex.bansystem.utils.penalty.PenaltyType;
+import lombok.Getter;
 import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.ServerPing;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * A class created by yi.dnl - 12.11.2022 / 15:26
@@ -22,11 +23,12 @@ import java.util.List;
 
 public class PenaltyService {
 
+    @Getter
     private final PenaltyRepository repository = new PenaltyRepository();
 
     private final ProxyServer proxyServer = BanSystem.getInstance().getProxy();
 
-    private final PlayerService playerService = BanSystem.getInstance().getPlayerService();
+    private final PlayerService playerService = new PlayerService();
 
     private final Cache cache = BanSystem.getInstance().getCache();
 
@@ -64,6 +66,10 @@ public class PenaltyService {
 
         Utils.sendTeamMessage("§cBan §7| §eThe player §6" + Utils.getNameByUUID(targetUUID) + "§e has been §cbanned §efor §c" + reason.getReason() + "§e by " + creator.getName() + ".");
         creator.sendMessage("Du hast xy für xy gebannt");
+
+        if (proxyServer.getPlayer(UUID.fromString(targetUUID)) != null) {
+            proxyServer.getPlayer(UUID.fromString(targetUUID)).disconnect("BANNED");
+        }
     }
 
     public void postMute(ProxiedPlayer creator, String targetUUID, PenaltyReason reason) {
@@ -129,7 +135,7 @@ public class PenaltyService {
                 reasons.add(PenaltyReason.valueOf(rs.getString("reason")));
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
 
         return reasons;

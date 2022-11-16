@@ -31,7 +31,7 @@ public class MinecraftPlayer {
     public MinecraftPlayer(ProxiedPlayer player) {
         this.name = player.getName();
         this.id = player.getUniqueId().toString();
-        this.ipAddress = player.getPendingConnection().getAddress().getHostName();
+        this.ipAddress = player.getPendingConnection().getAddress().getHostString();
         this.firstJoin = System.currentTimeMillis();
     }
 }
