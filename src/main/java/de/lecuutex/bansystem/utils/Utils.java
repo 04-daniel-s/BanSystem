@@ -66,7 +66,7 @@ public class Utils {
 
         StringBuilder builder = new StringBuilder();
         list.forEach(r -> builder.append(r.getReason()).append(","));
-        return builder.substring(builder.toString().length() - 1);
+        return builder.substring(0, Math.max(0, builder.toString().length() - 1));
     }
 
 

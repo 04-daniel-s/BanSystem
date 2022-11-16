@@ -55,13 +55,12 @@ public abstract class AbstractTeamCommand extends Command {
         }
 
         if (args.length == getMinArgsLength()) {
-            target = Utils.getUUIDByName(args[0]).toString();
-
-            if (proxyServer.getPlayer(UUID.fromString(target)) == null && !playerService.isPresent(target)) {
+            if (Utils.getUUIDByName(args[0]) == null || (proxyServer.getPlayer(Utils.getUUIDByName(args[0])) == null && !playerService.isPresent(Utils.getUUIDByName(args[0]).toString()))) {
                 player.sendMessage("§6Akerus §7| This player has never been on the server!");
                 return;
             }
 
+            target = Utils.getUUIDByName(args[0]).toString();
             executorService.submit(() -> commandBody(player, args));
             return;
         }

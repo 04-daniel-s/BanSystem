@@ -15,7 +15,7 @@ public class UnbanCommand extends AbstractTeamCommand {
 
     @Override
     public void commandBody(ProxiedPlayer player, String[] args) {
-        if (!getPlayerService().getMinecraftPlayer(player.getUniqueId().toString()).isBanned()) {
+        if (!getPlayerService().getMinecraftPlayer(getTarget()).isBanned()) {
             player.sendMessage("Nicht gebannt");
             return;
         }
@@ -23,7 +23,7 @@ public class UnbanCommand extends AbstractTeamCommand {
     }
 
     public void sendUsage(ProxiedPlayer player) {
-        player.sendMessage("§cBan §7| /unban <Player>");
+        player.sendMessage(getBanPrefix() + "/unban <Player>");
     }
 
     @Override
