@@ -2,9 +2,7 @@ package de.lecuutex.bansystem.utils.database.service;
 
 import de.lecuutex.bansystem.BanSystem;
 import de.lecuutex.bansystem.utils.MinecraftPlayer;
-import de.lecuutex.bansystem.utils.database.repository.PenaltyRepository;
 import de.lecuutex.bansystem.utils.database.repository.PlayerRepository;
-import de.lecuutex.bansystem.utils.penalty.PenaltyType;
 import net.md_5.bungee.api.ProxyServer;
 
 import java.sql.ResultSet;
@@ -36,6 +34,7 @@ public class PlayerService {
         }
 
         MinecraftPlayer player = null;
+
         if (proxyServer.getPlayer(UUID.fromString(uuid)) != null) {
             player = new MinecraftPlayer(BanSystem.getInstance().getProxy().getPlayer(UUID.fromString(uuid)));
         }
@@ -45,12 +44,13 @@ public class PlayerService {
                 ResultSet rs = playerRepository.getPlayer(uuid);
                 while (rs.next()) {
                     player = new MinecraftPlayer(rs.getString("name"), rs.getString("uuid"), rs.getString("ip_address"), rs.getLong("first_join"), penaltyService.isMuted(uuid), penaltyService.isBanned(uuid));
-                    cache.cacheMinecraftPlayer(player);
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
+
+        cache.cacheMinecraftPlayer(player);
         return player;
     }
 

@@ -17,7 +17,7 @@ public class MuteCommand extends AbstractTeamCommand {
     @Override
     public void commandBody(ProxiedPlayer player, String[] args) {
         if (getPenaltyService().isMuted(getTarget())) {
-            player.sendMessage("§cMute §7| §cThis player is already muted.");
+            player.sendMessage(getMutePrefix() + "§cThis player is already muted.");
             return;
         }
 
@@ -29,12 +29,12 @@ public class MuteCommand extends AbstractTeamCommand {
         PenaltyReason reason = PenaltyReason.getReasonById(Integer.parseInt(args[1]));
 
         if (targetHasPermission("bansystem.ignore")) {
-            player.sendMessage("§cMute §7| §cYou cannot mute this team member!");
+            player.sendMessage(getMutePrefix() + "§cYou cannot mute this team member!");
             return;
         }
 
-        if(reason == PenaltyReason.EXTREME && !player.hasPermission("bansystem.extreme")) {
-            player.sendMessage("§cMute §7| §cYou are not allowed to use this reason!");
+        if (reason == PenaltyReason.EXTREME && !player.hasPermission("bansystem.extreme")) {
+            player.sendMessage(getMutePrefix() + "§cYou are not allowed to use this reason!");
             return;
         }
 
@@ -44,10 +44,10 @@ public class MuteCommand extends AbstractTeamCommand {
     @Override
     public void sendUsage(ProxiedPlayer player) {
         player.sendMessage("§8§7» ----------- × Mutesystem × ----------- «");
-        player.sendMessage("§cBan §7┃ /mute (Player) (Number)");
-        player.sendMessage("§cBan §7┃ §a1   §7» §aChat behavior");
-        player.sendMessage("§cBan §7┃ §a2   §7» §aBehavior");
-        player.sendMessage("§cBan §7┃ §a3   §7» §aAdvertisement");
+        player.sendMessage("§cMute §7┃ /mute (Player) (Number)");
+        player.sendMessage("§cMute §7┃ §a1   §7» §aChat behavior");
+        player.sendMessage("§cMute §7┃ §a2   §7» §aBehavior");
+        player.sendMessage("§cMute §7┃ §a3   §7» §aAdvertisement");
         player.sendMessage("§8§7» ----------- × Mutesystem × -----------  «");
     }
 

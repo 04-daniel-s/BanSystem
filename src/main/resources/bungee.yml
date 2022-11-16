@@ -1,4 +1,4 @@
-name: BanSystem
+name: AkerusCore
 version: '${project.version}'
 main: de.lecuutex.bansystem.BanSystem
 author: yidnl

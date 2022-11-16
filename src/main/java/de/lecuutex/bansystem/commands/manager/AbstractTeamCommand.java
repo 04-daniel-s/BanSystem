@@ -26,9 +26,13 @@ public abstract class AbstractTeamCommand extends Command {
         super(command);
     }
 
-    private final String banPrefix = "§cBan §7| §c ";
+    private final String banPrefix = "§cBan §7| §7";
 
-    private final String infoPrefix = "§cInfo §7| §7 ";
+    private final String infoPrefix = "§bPlayer Info §7| §7";
+
+    private final String mutePrefix = "§cMute §7| §7";
+
+    private final String warnPrefix = "§cWarn §7 §7";
 
     private final CloudNetDriver cloudNetDriver = BanSystem.getInstance().getCloudNetDriver();
 
@@ -51,10 +55,10 @@ public abstract class AbstractTeamCommand extends Command {
         }
 
         if (args.length == getMinArgsLength()) {
-            target = proxyServer.getPlayer(args[0]) != null ? proxyServer.getPlayer(args[0]).getUniqueId().toString() : String.valueOf(Utils.getUUIDByName(args[0]));
+            target = Utils.getUUIDByName(args[0]).toString();
 
-            if (target == null) {
-                player.sendMessage("Dieser Spieler war noch nie auf dem Server");
+            if (proxyServer.getPlayer(UUID.fromString(target)) == null && !playerService.isPresent(target)) {
+                player.sendMessage("§6Akerus §7| This player has never been on the server!");
                 return;
             }
 

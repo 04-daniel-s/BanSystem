@@ -22,12 +22,12 @@ public class WarnCommand extends AbstractTeamCommand {
         PenaltyReason reason = PenaltyReason.getReasonById(Integer.parseInt(args[1]));
 
         if (getCloudNetDriver().getPermissionManagement().getUser(UUID.fromString(getTarget())).hasPermission("bansystem.ignore").asBoolean()) {
-            player.sendMessage("§cBan §7| §cYou are not allowed to affect this player!");
+            player.sendMessage(getBanPrefix() + "§cYou cannot warn team members!");
             return;
         }
 
         if (reason == PenaltyReason.EXTREME && !player.hasPermission("bansystem.extreme")) {
-            player.sendMessage("§cWarn §7| §cYou are not allowed to use this reason!");
+            player.sendMessage(getBanPrefix() + "§cYou are not allowed to use this reason!");
             return;
         }
 
@@ -37,15 +37,15 @@ public class WarnCommand extends AbstractTeamCommand {
     @Override
     public void sendUsage(ProxiedPlayer player) {
         player.sendMessage("§8§7» ----------- × Warnsystem × ----------- «");
-        player.sendMessage("§cBan §7┃ /warn (Player) (Number)");
-        player.sendMessage("§cBan §7┃ §a1   §7» §aChat behavior");
-        player.sendMessage("§cBan §7┃ §a2   §7» §aBehavior");
-        player.sendMessage("§cBan §7┃ §a3   §7» §aAdvertisement");
-        player.sendMessage("§cBan §7┃ §a4   §7» §aTrolling");
-        player.sendMessage("§cBan §7┃ §a5   §7» §aTeaming");
-        player.sendMessage("§cBan §7┃ §a6   §7» §aSkin");
-        player.sendMessage("§cBan §7┃ §a7   §7» §aName");
-        player.sendMessage("§cBan §7┃ §a8   §7» §aRank utilization");
+        player.sendMessage("§cWarn §7┃ /warn (Player) (Number)");
+        player.sendMessage("§cWarn §7┃ §a1   §7» §aChat behavior");
+        player.sendMessage("§cWarn §7┃ §a2   §7» §aBehavior");
+        player.sendMessage("§cWarn §7┃ §a3   §7» §aAdvertisement");
+        player.sendMessage("§cWarn §7┃ §a4   §7» §aTrolling");
+        player.sendMessage("§cWarn §7┃ §a5   §7» §aTeaming");
+        player.sendMessage("§cWarn §7┃ §a6   §7» §aSkin");
+        player.sendMessage("§cWarn §7┃ §a7   §7» §aName");
+        player.sendMessage("§cWarn §7┃ §a8   §7» §aRank utilization");
         player.sendMessage("§8§7» ----------- × Warnsystem × -----------  «");
     }
 

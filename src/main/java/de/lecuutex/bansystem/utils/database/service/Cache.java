@@ -1,5 +1,6 @@
 package de.lecuutex.bansystem.utils.database.service;
 
+import com.sun.org.apache.xalan.internal.xsltc.dom.SortingIterator;
 import de.lecuutex.bansystem.BanSystem;
 import de.lecuutex.bansystem.utils.MinecraftPlayer;
 
@@ -13,14 +14,12 @@ public class Cache {
 
     private final HashMap<String, MinecraftPlayer> players = new HashMap<>();
 
-    private final PlayerService playerService = BanSystem.getInstance().getPlayerService();
-
     public void cacheMinecraftPlayer(MinecraftPlayer minecraftPlayer) {
         players.put(minecraftPlayer.getId(), minecraftPlayer);
     }
 
     protected void saveBan(String uuid) {
-        playerService.getMinecraftPlayer(uuid).setBanned(true);
+        getPlayer(uuid).setBanned(true);
     }
 
     protected MinecraftPlayer getPlayer(String uuid) {

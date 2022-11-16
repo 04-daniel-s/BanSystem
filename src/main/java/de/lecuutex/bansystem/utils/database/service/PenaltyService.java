@@ -61,12 +61,17 @@ public class PenaltyService {
     }
 
     public void postBan(ProxiedPlayer creator, String targetUUID, PenaltyReason reason) {
+        System.out.println("TEST44");
         repository.postPenalty(creator, targetUUID, PenaltyType.BAN, reason, BanDuration.getDurationByReason(reason));
+        System.out.println("TEST55");
         cache.saveBan(targetUUID);
+        System.out.println("TEST66");
 
+        System.out.println("TEST111");
         Utils.sendTeamMessage("§cBan §7| §eThe player §6" + Utils.getNameByUUID(targetUUID) + "§e has been §cbanned §efor §c" + reason.getReason() + "§e by " + creator.getName() + ".");
         creator.sendMessage("Du hast xy für xy gebannt");
 
+        System.out.println("TEST1111");
         if (proxyServer.getPlayer(UUID.fromString(targetUUID)) != null) {
             proxyServer.getPlayer(UUID.fromString(targetUUID)).disconnect("BANNED");
         }
