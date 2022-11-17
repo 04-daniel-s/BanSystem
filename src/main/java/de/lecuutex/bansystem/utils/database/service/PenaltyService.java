@@ -8,6 +8,7 @@ import de.lecuutex.bansystem.utils.penalty.MuteDuration;
 import de.lecuutex.bansystem.utils.penalty.PenaltyReason;
 import de.lecuutex.bansystem.utils.penalty.PenaltyType;
 import lombok.Getter;
+import net.md_5.bungee.Util;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
@@ -61,17 +62,12 @@ public class PenaltyService {
     }
 
     public void postBan(ProxiedPlayer creator, String targetUUID, PenaltyReason reason) {
-        System.out.println("TEST44");
         repository.postPenalty(creator, targetUUID, PenaltyType.BAN, reason, BanDuration.getDurationByReason(reason));
-        System.out.println("TEST55");
         cache.saveBan(targetUUID);
-        System.out.println("TEST66");
 
-        System.out.println("TEST111");
-        Utils.sendTeamMessage("§cBan §7| §eThe player §6" + Utils.getNameByUUID(targetUUID) + "§e has been §cbanned §efor §c" + reason.getReason() + "§e by " + creator.getName() + ".");
+        Utils.sendTeamMessage("§cBan §7| §eThe player §6" + Utils.getNameByUUID(targetUUID) + "§e has been §cbanned §efor §c" + reason.getReason() + "§e by §c" + creator.getName() + "§e.");
         creator.sendMessage("Du hast xy für xy gebannt");
 
-        System.out.println("TEST1111");
         if (proxyServer.getPlayer(UUID.fromString(targetUUID)) != null) {
             proxyServer.getPlayer(UUID.fromString(targetUUID)).disconnect("BANNED");
         }
@@ -82,8 +78,8 @@ public class PenaltyService {
         cache.saveMute(targetUUID);
 
         Utils.sendTeamMessage("§cMute §7| §eThe player §6" + Utils.getNameByUUID(targetUUID) + "§e has been §cmuted §efor §c" + reason.getReason() + "§e by " + creator.getName() + ".");
-        creator.sendMessage("Du hast xy für xy gemutet");
-        Utils.sendMessageIfOnline(targetUUID, "Du wurdest gemutet");
+        creator.sendMessage("§cMute §7| §eYou have muted §6" + Utils.getNameByUUID(targetUUID) + " §efor §c" + reason.getReason() + "§e.");
+        Utils.sendMessageIfOnline(targetUUID, "§cMute §7| §eYou have been muted for §c" + reason.getReason() + " §eby §c" + creator.getName() + "§e.");
     }
 
     public void postWarn(ProxiedPlayer creator, String targetUUID, PenaltyReason reason) {
@@ -110,9 +106,9 @@ public class PenaltyService {
         repository.removePenalty(targetUUID, PenaltyType.MUTE);
         cache.removeMute(targetUUID);
 
-        Utils.sendTeamMessage("xyz wurde entmutet von xyz");
+        Utils.sendTeamMessage("§cMute §7| §eThe mute of §6" + Utils.getNameByUUID(targetUUID) + " §ehas been removed by §c" + creator.getName() + "§e.");
         creator.sendMessage("§cMute §7| §eThe mute of" + playerService.getMinecraftPlayer(targetUUID).getName() + "has been removed.");
-        Utils.sendMessageIfOnline(targetUUID, "Du wurdest entmutet");
+        Utils.sendMessageIfOnline(targetUUID, "§cMute §7| §eYour mute has been removed.");
     }
 
     public boolean isBanned(String uuid) {

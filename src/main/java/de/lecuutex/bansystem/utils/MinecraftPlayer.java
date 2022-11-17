@@ -1,9 +1,12 @@
 package de.lecuutex.bansystem.utils;
 
+import com.sun.tools.sjavac.CompileJavaPackages;
+import de.lecuutex.bansystem.utils.database.service.PlayerService;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import net.md_5.bungee.api.connection.PendingConnection;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 /**
@@ -32,6 +35,13 @@ public class MinecraftPlayer {
         this.name = player.getName();
         this.id = player.getUniqueId().toString();
         this.ipAddress = player.getPendingConnection().getAddress().getHostString();
+        this.firstJoin = System.currentTimeMillis();
+    }
+
+    public MinecraftPlayer(PendingConnection connection) {
+        this.name = connection.getName();
+        this.id = connection.getUniqueId().toString();
+        this.ipAddress = connection.getAddress().getHostString();
         this.firstJoin = System.currentTimeMillis();
     }
 }

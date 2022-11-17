@@ -1,7 +1,5 @@
 package de.lecuutex.bansystem.utils.database.service;
 
-import com.sun.org.apache.xalan.internal.xsltc.dom.SortingIterator;
-import de.lecuutex.bansystem.BanSystem;
 import de.lecuutex.bansystem.utils.MinecraftPlayer;
 
 import java.util.HashMap;

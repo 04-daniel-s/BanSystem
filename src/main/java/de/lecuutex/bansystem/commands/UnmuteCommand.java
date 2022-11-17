@@ -16,7 +16,7 @@ public class UnmuteCommand extends AbstractTeamCommand {
     @Override
     public void commandBody(ProxiedPlayer player, String[] args) {
         if (!getPenaltyService().isMuted(getTarget())) {
-            player.sendMessage("Nicht gemutet");
+            player.sendMessage(getMutePrefix() + "§eThis player is not muted.");
             return;
         }
 
@@ -25,7 +25,7 @@ public class UnmuteCommand extends AbstractTeamCommand {
 
     @Override
     public void sendUsage(ProxiedPlayer player) {
-        player.sendMessage("§cBan §7| /unmute <Player>");
+        player.sendMessage(getMutePrefix() + "/unmute <Player>");
     }
 
     @Override

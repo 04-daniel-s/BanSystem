@@ -3,8 +3,8 @@ package de.lecuutex.bansystem.listener;
 import de.lecuutex.bansystem.BanSystem;
 import de.lecuutex.bansystem.utils.MinecraftPlayer;
 import de.lecuutex.bansystem.utils.database.service.PlayerService;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.event.PostLoginEvent;
+import net.md_5.bungee.api.connection.PendingConnection;
+import net.md_5.bungee.api.event.PreLoginEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 
@@ -15,20 +15,18 @@ import net.md_5.bungee.event.EventHandler;
 public class JoinListener implements Listener {
 
     @EventHandler
-    public void onEvent(PostLoginEvent event) {
-        BanSystem.getInstance().getExecutorService().submit(() -> {
-            PlayerService playerService = BanSystem.getInstance().getPlayerService();
-            ProxiedPlayer player = event.getPlayer();
-            String uuid = player.getUniqueId().toString();
+    public void onEvent(PreLoginEvent event) {
+        PlayerService playerService = BanSystem.getInstance().getPlayerService();
+        PendingConnection connection = event.getConnection();
+        String uuid = connection.getUniqueId().toString();
 
-            if (!playerService.isPresent(uuid)) {
-                BanSystem.getInstance().getCache().cacheMinecraftPlayer(new MinecraftPlayer(player));
-                playerService.postPlayer(uuid);
-            }
+        if (!playerService.isPresent(uuid)) {
+            BanSystem.getInstance().getCache().cacheMinecraftPlayer(new MinecraftPlayer(connection));
+            playerService.postPlayer(uuid);
+        }
 
-            if (playerService.getMinecraftPlayer(player.getUniqueId().toString()).isBanned()) {
-                player.disconnect("Du bist gebannt");
-            }
-        });
+        if (playerService.getMinecraftPlayer(uuid).isBanned()) {
+            connection.disconnect("Du bist gebannt");
+        }
     }
 }
