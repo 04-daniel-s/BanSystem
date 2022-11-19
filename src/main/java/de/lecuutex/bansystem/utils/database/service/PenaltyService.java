@@ -1,20 +1,23 @@
 package de.lecuutex.bansystem.utils.database.service;
 
 import de.lecuutex.bansystem.BanSystem;
+import de.lecuutex.bansystem.utils.MinecraftPlayer;
 import de.lecuutex.bansystem.utils.Utils;
 import de.lecuutex.bansystem.utils.database.repository.PenaltyRepository;
-import de.lecuutex.bansystem.utils.penalty.BanDuration;
-import de.lecuutex.bansystem.utils.penalty.MuteDuration;
+import de.lecuutex.bansystem.utils.penalty.Penalty;
+import de.lecuutex.bansystem.utils.penalty.ban.BanDuration;
+import de.lecuutex.bansystem.utils.penalty.mute.MuteDuration;
 import de.lecuutex.bansystem.utils.penalty.PenaltyReason;
 import de.lecuutex.bansystem.utils.penalty.PenaltyType;
 import lombok.Getter;
-import net.md_5.bungee.Util;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
+import javax.swing.plaf.basic.BasicTabbedPaneUI;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,6 +33,8 @@ public class PenaltyService {
     private final ProxyServer proxyServer = BanSystem.getInstance().getProxy();
 
     private final PlayerService playerService = new PlayerService();
+
+    private final PenaltyService penaltyService = new PenaltyService();
 
     private final Cache cache = BanSystem.getInstance().getCache();
 
@@ -69,7 +74,8 @@ public class PenaltyService {
         creator.sendMessage("Du hast xy für xy gebannt");
 
         if (proxyServer.getPlayer(UUID.fromString(targetUUID)) != null) {
-            proxyServer.getPlayer(UUID.fromString(targetUUID)).disconnect("BANNED");
+            Penalty penalty = penaltyService.getActivePenalty(playerService.getMinecraftPlayer(targetUUID), PenaltyType.BAN);
+            proxyServer.getPlayer(UUID.fromString(targetUUID)).disconnect(Utils.getBanScreen(penalty));
         }
     }
 
@@ -140,5 +146,23 @@ public class PenaltyService {
         }
 
         return reasons;
+    }
+
+    public Penalty getActivePenalty(MinecraftPlayer minecraftPlayer, PenaltyType type) {
+        try {
+            ResultSet rs = repository.getActivePenalty(minecraftPlayer.getId(), type);
+            if (rs.next()) {
+
+                PenaltyReason reason = PenaltyReason.valueOf(rs.getString("reason"));
+                String by = rs.getString("creator_uuid");
+                Long latestTimestamp = repository.getLatestTimestamp(minecraftPlayer.getId(), type);
+                Long duration = latestTimestamp - (repository.getLatestDuration(minecraftPlayer.getId(), type) == -1 ? latestTimestamp + 1 : repository.getLatestDuration(minecraftPlayer.getId(), type));
+
+                return new Penalty(reason, Utils.getDateByMilliseconds(latestTimestamp), Utils.getDateByMilliseconds(duration), by);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
     }
 }

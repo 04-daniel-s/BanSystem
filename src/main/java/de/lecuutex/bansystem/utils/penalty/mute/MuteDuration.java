@@ -1,9 +1,10 @@
-package de.lecuutex.bansystem.utils.penalty;
+package de.lecuutex.bansystem.utils.penalty.mute;
 
 import de.lecuutex.bansystem.utils.database.service.PenaltyService;
+import de.lecuutex.bansystem.utils.penalty.DefaultDuration;
+import de.lecuutex.bansystem.utils.penalty.PenaltyReason;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.util.Arrays;
 import java.util.List;

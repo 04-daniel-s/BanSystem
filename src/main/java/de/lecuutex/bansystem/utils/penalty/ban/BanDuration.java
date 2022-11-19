@@ -1,13 +1,11 @@
-package de.lecuutex.bansystem.utils.penalty;
+package de.lecuutex.bansystem.utils.penalty.ban;
 
-import jdk.jfr.internal.PlatformRecorder;
+import de.lecuutex.bansystem.utils.penalty.DefaultDuration;
+import de.lecuutex.bansystem.utils.penalty.PenaltyReason;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
 
 /**
  * A class created by yi.dnl - 12.11.2022 / 14:31

@@ -3,6 +3,7 @@ package de.lecuutex.bansystem.utils.database.service;
 import de.lecuutex.bansystem.BanSystem;
 import de.lecuutex.bansystem.utils.MinecraftPlayer;
 import de.lecuutex.bansystem.utils.database.repository.PlayerRepository;
+import jdk.jfr.internal.Repository;
 import net.md_5.bungee.api.ProxyServer;
 
 import java.sql.ResultSet;
@@ -57,4 +58,5 @@ public class PlayerService {
     public boolean isPresent(String uuid) {
         return playerRepository.isPresent(uuid);
     }
+
 }

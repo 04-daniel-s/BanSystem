@@ -2,7 +2,11 @@ package de.lecuutex.bansystem.utils;
 
 import com.google.gson.Gson;
 import de.lecuutex.bansystem.BanSystem;
+import de.lecuutex.bansystem.utils.penalty.Penalty;
 import de.lecuutex.bansystem.utils.penalty.PenaltyReason;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 
 import java.io.IOException;
 import java.net.URL;
@@ -56,6 +60,7 @@ public class Utils {
     }
 
     public static String getDateByMilliseconds(Long millis) {
+        if (millis == -1) return "Never";
         return new SimpleDateFormat("dd.MM.yyyy").format(new Date(millis));
     }
 
@@ -72,5 +77,16 @@ public class Utils {
 
     public static void sendTeamMessage(String message) {
         BanSystem.getInstance().getProxy().getPlayers().stream().filter(p -> p.hasPermission("bansystem.team")).forEach(p -> p.sendMessage(message));
+    }
+
+    public static BaseComponent[] getBanScreen(Penalty penalty) {
+        return new ComponentBuilder("You have been banned from the server.").color(ChatColor.RED).append("\n\n")
+                .append("Reason: ").color(ChatColor.RED).append(penalty.getReason().getReason()).color(ChatColor.YELLOW).append("\n")
+                .append("Banned by: ").color(ChatColor.RED).append(Utils.getNameByUUID(penalty.getBy())).color(ChatColor.YELLOW).append("\n")
+                .append("Date: ").color(ChatColor.RED).append(penalty.getDate()).color(ChatColor.YELLOW).append("\n")
+                .append("Expires in: ").color(ChatColor.RED).append(penalty.getUntil()).color(ChatColor.YELLOW).append("\n\n")
+                .append("To cancel your ban, make a request on our Discord server").color(ChatColor.GREEN).append("\n")
+                .append("Discord: GrRgtcffKs").color(ChatColor.DARK_AQUA)
+                .create();
     }
 }

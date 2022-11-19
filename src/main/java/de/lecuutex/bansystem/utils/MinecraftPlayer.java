@@ -40,7 +40,7 @@ public class MinecraftPlayer {
 
     public MinecraftPlayer(PendingConnection connection) {
         this.name = connection.getName();
-        this.id = connection.getUniqueId().toString();
+        this.id = Utils.getUUIDByName(connection.getName()).toString();
         this.ipAddress = connection.getAddress().getHostString();
         this.firstJoin = System.currentTimeMillis();
     }

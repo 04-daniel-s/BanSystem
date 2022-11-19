@@ -1,6 +1,8 @@
 package de.lecuutex.bansystem.utils.database.repository;
 
 import de.lecuutex.bansystem.utils.penalty.*;
+import de.lecuutex.bansystem.utils.penalty.ban.BanDuration;
+import de.lecuutex.bansystem.utils.penalty.mute.MuteDuration;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.sql.ResultSet;
@@ -78,5 +80,9 @@ public class PenaltyRepository extends AbstractRepository {
             e.printStackTrace();
         }
         return latestDuration;
+    }
+
+    public ResultSet getActivePenalty(String id, PenaltyType type) {
+        return queryData("SELECT * FROM penalties WHERE uuid = ? AND penalty_type = ? ORDER BY timestamp DESC LIMIT 1", id, type.toString());
     }
 }
